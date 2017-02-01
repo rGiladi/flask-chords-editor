@@ -1,0 +1,94 @@
+{% extends "bootstrap/base.html" %}
+
+{% block html_attribs %}
+    ng-app="root"
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="/static/js/app.js"></script>
+<script src="/static/js/javascript.js"></script>
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="https://fonts.googleapis.com/css?family=Secular+One" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/chords-editor.css">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="lyrics-wrapper row">
+    <div class="header">
+        <img class="drums-img" src="{{ url_for('static', filename='img/drums.png') }}">
+    </div>
+    <div class="editor-wrapper col-xs-10 editable">
+        <h1 class="app-title">עריכת אקורדים</h1>
+        <div class="about-editor">
+            <p>בשביל להתחיל לערוך הכניסו מילים, לחצו על "ערוך אקורדים" והוסיפו אקורדים בעורך השני שנמצא בחלק התחתון של העמוד</p>
+            <p>כל מה שיעבור את הקו האדום ייחשב כשורה חדשה</p>
+        </div>
+        <div class="inner-editor">
+            <div class="red-line"></div>
+            <textarea id="editor" rows="15" cols="60" placeholder="הכניסו מילים"></textarea>
+        </div>
+    </div>
+    <div class="options-sidebar col-xs-2">
+        <ul class="tools-ul">
+            <div class="dropdown">
+                <li id="add-structure" class="btn btn-default dropdown-toggle" data-toggle="dropdown">הוספה
+                <span class="caret"></span></li>
+                <ul class="dropdown-menu pull-left my_dropdown" role="menu" aria-labelledby="add-structure">
+                    <li class="options-menu" role="presentation" onclick="addOpening()"><a>פתיחה</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li class="options-menu" role="presentation" onclick="addChordsRow()"><a>מעבר</a></li>
+                </ul>
+            </div>
+            <img class="guitar-img" src="{{ url_for('static', filename='img/guitar.png') }}">
+            <li id="save-lyrics" class="btn btn-default" onclick="render_lyrics()">ערוך אקורדים</li>
+        </ul>
+    </div>
+</div>
+    <div class="rendered-lyrics-wrapper row">
+    <div class="chord-toolbar f_act" ng-controller="chords_tools">
+        <select class="btn btn-default chords-select selection_adds" ng-model="note_selected">
+            <option value="" disabled selected>אקורד</option>
+            <option class="o_s" id="note{a $index a}" ng-repeat="note in notes">{a note.val a}</option>
+        </select>
+        <select class="btn btn-default ext-select selection_adds" disabled ng-model="ext_selected">
+            <option value="" selected disabled>תוספת</option>
+            <option class="o_s" id="ext{a $index a}" ng-repeat="ext in extensions">{a ext.val a}</option>
+        </select>
+        <select class="btn btn-default bass-select selection_adds" disabled ng-model="bass_selected">
+            <option value="" selected disabled>בס</option>
+            <option class="o_s" id="bass{a $index a}" ng-repeat="bass in basses">{a bass.val a}</option>
+        </select>
+        <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">אפשרויות
+        <span class="caret"></span></button>
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1">
+                <li class="options-menu" role="presentation" onclick="expandRow()"><a>הרחב שורה</a></li>
+                <li role="presentation" class="divider"></li>
+                <li class="options-menu" role="presentation" onclick="deleteChord()"><a>מחק אקורד</a></li>
+                <li role="presentation" class="divider"></li>
+                <li class="options-menu" role="presentation" onclick="hideToolbar()"><a>הסתר</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="rendered-editor-wrapper col-xs-12">
+        <div class="rendered-lyrics">
+            <div id="inner-rendered-editor">
+                <div id="inner-lines">
+                    <span class="chord_value"></span>
+                </div>
+            </div>
+        </div>
+        <input type="button" class="btn btn-default save_final" onclick="save_chords()" value="שמור אקורדים">
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block scripts %}
+<script src="{{url_for('static', filename='js/no-jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chords.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/chords_final.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="rendered-editor-wrapper col-xs-10">
+        <div class="rendered-lyrics">
+            <div id="inner-rendered-editor">
+                <div id="inner-lines">
+                    {{ chords | safe }}
+                </div>
+            </div>
+            <input id="url_link" type="text" readonly value="{{ url_for('get_chords', url=url, _external=True) }}">
+        </div>
+    </div>
+    <div class="col-xs-2 chords_options">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle width_btn" type="button" data-toggle="dropdown">שנה טון
+          <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li tone="1" class="tone_btn" onclick="changeTone(this)">העלה בחצי טון</li>
+                <li tone="2" class="tone_btn" onclick="changeTone(this)">העלה בטון</li>
+                <li class="divider"></li>
+                <li tone="-1" class="tone_btn" onclick="changeTone(this)">הורד בחצי טון</li>
+                <li tone="-2" class="tone_btn" onclick="changeTone(this)">הורד בטון</li>
+
+            </ul>
+        </div>
+        <buttn class="btn btn-default width_btn" onclick="javascript:window.print()">הדפס אקורדים</buttn>
+    </div>
+</div>
+
+{% endblock %}
