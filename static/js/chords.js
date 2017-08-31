@@ -34,10 +34,11 @@ function changeTone(e) {
     var chords = document.getElementsByClassName('chord_value');
 
     for (i=0; i < chords.length; i++) {
-        
-        var chord_value = /[A-Z]{1}#?/.exec(chords[i].innerHTML);
+    
+        var chord_full = chords[i].innerHTML
+        var chord_value = /[A-Z]{1}#?/.exec(chord_full);
         var chord_index = parseInt(chord_data.indexOf(chord_value[0]));
-        var chord_ext = /\/.*/.exec(chords[i].innerHTML) || '';
+        var chord_ext = chord_full.substr(chord_value.length)
 
         if ( tone > 0) {
             if ( chord_index + tone > 11) {
