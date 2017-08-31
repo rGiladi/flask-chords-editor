@@ -34,7 +34,7 @@ def main():
 @app.route('/save_chords', methods=['POST'])
 def save_chords():
     raw_html = request.form.get('chords')
-    if not raw_html:
+    if not raw_html or len(raw_html) < 20:
         return None
     else:
         url = uuid4().hex[:8]
