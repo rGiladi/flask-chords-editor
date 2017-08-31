@@ -3,14 +3,14 @@ from flask_bootstrap import Bootstrap
 from flask_script import Manager, Shell
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import MigrateCommand, Migrate
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CsrfProtect
 from config import Config
 from uuid import uuid4
 
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-csrf = CSRFProtect()
+csrf = CsrfProtect()
 
 def create_app():
     app = Flask(__name__)
