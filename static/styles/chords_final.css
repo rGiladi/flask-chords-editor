@@ -1,6 +1,7 @@
 html, body {
     direction: rtl;
     font-family: sans-serif, Arial;
+    min-width: 100%;
 }
 
 .container-fluid {

@@ -34,8 +34,10 @@ function changeTone(e) {
     var chords = document.getElementsByClassName('chord_value');
 
     for (i=0; i < chords.length; i++) {
+        
         var chord_value = /[A-Z]{1}#?/.exec(chords[i].innerHTML);
         var chord_index = parseInt(chord_data.indexOf(chord_value[0]));
+        var chord_ext = /\/.*/.exec(chords[i].innerHTML) || '';
 
         if ( tone > 0) {
             if ( chord_index + tone > 11) {
@@ -45,19 +47,16 @@ function changeTone(e) {
                 chord_index = chord_index + tone;
             }
         }
-
         else {
             if ( chord_index + tone < 0 ) {
                 chord_index = 12 + tone;
-
             }
-
             else {
                 chord_index = chord_index + tone;
             }
         }
 
-        chords[i].innerHTML = chord_data[chord_index]
+        chords[i].innerHTML = chord_data[chord_index] + chord_ext;
     }
 }
 
