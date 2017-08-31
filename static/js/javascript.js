@@ -146,8 +146,21 @@ ajax.post = function (url, data, callback, async) {
 };
 
 function save_chords() {
-    ajax.post('/save_chords',
-    {'chords': document.getElementById('inner-lines').innerHTML },
-    function(r) {window.location.href = window.location.href + 'chords/' + r})
+
+    var lines = document.getElementById('inner-lines').innerHTML
+
+    if (lines.length > 20) {
+        ajax.post('/save_chords',
+            {
+                'chords': lines
+            },
+            function(r) {
+                window.location.href = window.location.href + 'chords/' + r
+            }
+         )
+     }
+     else {
+        alert('עוד לא הכנסת מילים')
+     }
 }
 

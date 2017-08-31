@@ -3,17 +3,20 @@ from flask_bootstrap import Bootstrap
 from flask_script import Manager, Shell
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import MigrateCommand, Migrate
+from flask_wtf.csrf import CSRFProtect
 from config import Config
 from uuid import uuid4
 
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    csrf.init_app(app)
     db.init_app(app)
     bootstrap.init_app(app)
     return app
@@ -21,7 +24,6 @@ def create_app():
 app = create_app()
 manager = Manager(app)
 migrate = Migrate(app, db)
-
 
 
 @app.route('/')
@@ -32,10 +34,13 @@ def main():
 @app.route('/save_chords', methods=['POST'])
 def save_chords():
     raw_html = request.form.get('chords')
-    url = uuid4().hex[:8]
-    new_chords = Content(html=raw_html, url=url)
-    db.session.add(new_chords)
-    return url
+    if not raw_html:
+        return None
+    else:
+        url = uuid4().hex[:8]
+        new_chords = Content(html=raw_html, url=url)
+        db.session.add(new_chords)
+        return url
 
 
 @app.route('/chords/<url>', methods=['GET'])
