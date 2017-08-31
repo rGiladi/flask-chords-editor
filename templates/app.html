@@ -9,6 +9,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 <script src="/static/js/app.js"></script>
 <script src="/static/js/javascript.js"></script>
+<script type="text/javascript">
+    window._csrf_token = "{{ csrf_token() }}";
+</script>
 {% endblock %}
 
 {% block styles %}
@@ -18,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-{{ csrf_token() }}
+
 <div class="container-fluid">
     <div class="lyrics-wrapper row">
     <div class="header">

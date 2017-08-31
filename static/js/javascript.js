@@ -113,6 +113,7 @@ ajax.x = function () {
 };
 
 ajax.send = function (url, callback, method, data, async) {
+
     if (async === undefined) {
         async = true;
     }
@@ -125,6 +126,7 @@ ajax.send = function (url, callback, method, data, async) {
     };
     if (method == 'POST') {
         x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        x.setRequestHeader("X-CSRFToken", window._csrf_token);
     }
     x.send(data)
 };
